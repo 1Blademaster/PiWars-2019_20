@@ -2,8 +2,8 @@ import numpy as np
 import imutils
 import cv2
 
-colorLower = (104, 193, 68)
-colorUpper = (115, 255, 255)
+colorLower = (118, 33, 213)
+colorUpper = (168, 255, 255)
 
 cam = cv2.VideoCapture(0)
 
