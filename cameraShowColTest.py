@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import utils.colors as c
 
 cap = cv2.VideoCapture(0)
 
@@ -11,24 +12,7 @@ while True:
     _, frame = cap.read()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    green = np.array([
-        [50, 92, 76],
-        [84, 255, 255],
-    ])
-    greenYellow = np.array([
-        [38, 108, 232],
-        [60, 255, 255]
-    ])
-    darkBlue = np.array([
-        [107, 193, 68],
-        [112, 255, 255]
-    ])
-    pink = np.array([
-        [118, 33, 213],
-        [168, 255, 255]
-    ])
-
-    col = greenYellow
+    col = c.green
 
     # hue, saturation, value
     lower_col_0 = np.array([col[0, 0], col[0, 1], col[0, 2]])

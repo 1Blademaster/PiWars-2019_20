@@ -1,9 +1,7 @@
 import numpy as np
 import imutils
 import cv2
-
-colorLower = (118, 33, 213)
-colorUpper = (168, 255, 255)
+import utils.colors as c
 
 cam = cv2.VideoCapture(0)
 
@@ -13,6 +11,12 @@ while True:
     frame = imutils.resize(frame, width=800)
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    col = c.green
+
+    # hue, saturation, value
+    colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
+    colorUpper = np.array([col[1, 0], col[1, 1], col[1, 2]])
 
     mask = cv2.inRange(hsv, colorLower, colorUpper)
     mask = cv2.erode(mask, None, iterations=1)
@@ -38,10 +42,12 @@ while True:
 
                 cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
 
-        if maxCenter[0] < 300:
+        if maxCenter[0] < 350:
             print('Object is on left')
-        if maxCenter[0] > 600:
+        if maxCenter[0] > 450:
             print('Object is on right')
+        if maxCenter[0] >= 350 and maxCenter[0] <= 450:
+            print('Object is in center')
 
     cv2.imshow("Frame", frame)
     cv2.imshow("Mask Frame", maskFrame)
