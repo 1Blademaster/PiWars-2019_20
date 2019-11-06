@@ -57,7 +57,7 @@
         console.log(this.value);
 
         var request = new XMLHttpRequest();
-        request.open('POST', {{ url_for('fetchData')|tojson }});
+        request.open('POST', {{ url_for('fetchSliderData')|tojson }});
         request.setRequestHeader("Content-Type", "application/json");
         request.send(this.value);
 

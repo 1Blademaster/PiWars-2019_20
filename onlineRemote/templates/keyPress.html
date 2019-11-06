@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>blah blah</title>
+</head>
+<body>
+  <h4>key: <span id="showDirection"></span></h4>
+  <script type="text/javascript">
+  var showDirection = document.getElementById("showDirection");
+
+  document.onkeydown = function(event) {
+    switch (event.keyCode) {
+      case 37:
+          showDirection.innerHTML = "left";
+        break;
+      case 38:
+          showDirection.innerHTML = "up";
+        break;
+      case 39:
+          showDirection.innerHTML = "right";
+        break;
+     case 40:
+          showDirection.innerHTML = "down";
+        break;
+    }
+  };
+</script>

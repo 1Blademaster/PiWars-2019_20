@@ -1,15 +1,19 @@
-from flask import Flask, render_template, url_for, jsonify, request
+from flask import Flask, render_template, url_for, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return render_template('remote.html')
+@app.route('/slider')
+def slider():
+    return render_template('slider.html')
 
-@app.route("/fetchData", methods=["POST"])
-def fetchData():
+@app.route('/fetchSliderData', methods=['POST'])
+def fetchSliderData():
     print(request.json)
     return {'response': 'done'}
+
+@app.route('/keyPress')
+def keyPress():
+    return render_template('keyPress.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
