@@ -41,7 +41,6 @@ while True:
 
         cv2.circle(frame, maxCenter, 5, (0, 255, 0), -1)
         
-        #cnts = cnts.sort(key=sortSecond)
         if len(cnts) > 5:
             cnts = cnts[:5]
 

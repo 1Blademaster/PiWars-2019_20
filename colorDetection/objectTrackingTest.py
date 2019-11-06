@@ -35,6 +35,9 @@ while True:
 
         cv2.circle(frame, maxCenter, 5, (0, 255, 0), -1)
 
+        if len(cnts) > 5:
+            cnts = cnts[:5]
+
         for cnt in cnts:
             if np.all(cnt != maxCNT):
                 M = cv2.moments(cnt)
@@ -42,10 +45,14 @@ while True:
 
                 cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
 
+        if maxCenter[0] < 150:
+            print('Object is on far left')
         if maxCenter[0] < 350:
             print('Object is on left')
         if maxCenter[0] > 450:
             print('Object is on right')
+        if maxCenter[0] > 650:
+            print('Object is on far right')
         if maxCenter[0] >= 350 and maxCenter[0] <= 450:
             print('Object is in center')
 
