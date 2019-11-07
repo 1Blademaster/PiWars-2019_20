@@ -3,7 +3,8 @@ from flask import Flask, render_template, url_for, request, jsonify
 app = Flask(__name__)
 
 movement = {
-    'direction': '',
+    'direction': None,
+    'speed': None,
 }
 
 @app.route('/slider')
@@ -25,17 +26,25 @@ def fetchKeyPressData():
     if request.json == 'left':
         if movement['direction'] == 'right':
             movement['direction'] = 'stopped'
+        else:
+            movement['direction'] = 'left
     elif request.json == 'right':
         if movement['direction'] == 'left':
             movement['direction'] = 'stopped'
+        else:
+            movement['direction'] = 'right
     elif request.json == 'up':
         if movement['direction'] == 'down':
             movement['direction'] = 'stopped'
+        else:
+            movement['direction'] = 'up
     elif request.json == 'down':
         if movement['direction'] == 'up':
             movement['direction'] = 'stopped'
+        else:
+            movement['direction'] = 'down
     else:
-        movement['direction'] = request.json
+        print('Uknown input')
     
     return movement['direction']
 
