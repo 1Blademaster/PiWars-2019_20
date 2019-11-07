@@ -28,25 +28,25 @@ def fetchKeyPressData():
         if movement['direction'] == 'right':
             movement['direction'] = 'stopped'
         else:
-            movement['direction'] = 'left
+            movement['direction'] = 'left'
     elif request.json == 'right':
         if movement['direction'] == 'left':
             movement['direction'] = 'stopped'
         else:
-            movement['direction'] = 'right
+            movement['direction'] = 'right'
     elif request.json == 'up':
         if movement['direction'] == 'down':
             movement['direction'] = 'stopped'
         else:
-            movement['direction'] = 'up
+            movement['direction'] = 'up'
     elif request.json == 'down':
         if movement['direction'] == 'up':
             movement['direction'] = 'stopped'
         else:
-            movement['direction'] = 'down
+            movement['direction'] = 'down'
     else:
-        print('Uknown input')
-    
+        print('Unknown input')
+
     return movement['direction']
 
 if __name__ == '__main__':
