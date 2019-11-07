@@ -14,6 +14,7 @@ def slider():
 @app.route('/fetchSliderData', methods=['POST'])
 def fetchSliderData():
     print(request.json)
+    movement['speed'] = request.json
     return jsonify({'response': 'done'})
 
 @app.route('/keyPress')
