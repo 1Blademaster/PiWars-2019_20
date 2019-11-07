@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ def slider():
 @app.route('/fetchSliderData', methods=['POST'])
 def fetchSliderData():
     print(request.json)
-    return {'response': 'done'}
+    return jsonify({'response': 'done'})
 
 @app.route('/keyPress')
 def keyPress():
