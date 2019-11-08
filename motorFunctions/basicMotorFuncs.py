@@ -3,9 +3,9 @@ from time import sleep
 
 GPIO.setmode(GPIO.BCM)
 
-Motor1f = 14  # Input Pin yellow
-Motor1b = 6   # Input Pin white
-Motor1e = 10   # Enable Pin blue
+Motor1f = 12  # Input Pin yellow
+Motor1b = 7   # Input Pin white
+Motor1e = 16   # Enable Pin blue
 
 GPIO.setup(Motor1f, GPIO.OUT)
 GPIO.setup(Motor1b, GPIO.OUT)
