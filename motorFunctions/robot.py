@@ -6,10 +6,10 @@ class Robot():
     
     GPIO.setmode(GPIO.BCM)
     
-    #motor 0 ---> o---o <--- motor 1
+    #motor 1 ---> o---o <--- motor 2
     #              | |
     #              | |
-    #motor 2 ---> o---o <--- motor 3
+    #motor 3 ---> o---o <--- motor 4
 
     motor1f = 12 # Input Pin yellow
     motor1b = 7 # Input Pin white
@@ -19,8 +19,8 @@ class Robot():
     motor2e = 8 # Enable Pin purple
 
     motors = np.array([
-        [motor1f, motor1b, motor1e],
-        [motor2f, motor2b, motor2e],
+        [motor1f, motor1b, motor1e], # Motor 1
+        [motor2f, motor2b, motor2e], # Motor 2
     ])
 
     for i in range(0, len(motors)):
@@ -35,10 +35,10 @@ class Robot():
         GPIO.cleanup()
 
     def forward(self, timeSleep):
-        print(f'Going forward for {timeSleep} seconds')
+        print(f'Going forward for {timeSleep} seconds') # F string to make formatting easy
         
         # Turn all motors forward on
-        for i in range(0, len(self.motors)):
+        for i in range(0, len(self.motors)): # Loop through all the motors in the array
             GPIO.output(int(self.motors[i, 0]), GPIO.HIGH)
             GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
@@ -75,15 +75,15 @@ class Robot():
     def turnRight(self, timeSleep):
         print(f'Turning right for {timeSleep} seconds')
         
-        # Motor 0 go forwards
-        GPIO.output(int(self.motors[0, 0]), GPIO.HIGH)
-        GPIO.output(int(self.motors[0, 1]), GPIO.LOW)
-        GPIO.output(int(self.motors[0, 2]), GPIO.HIGH)
-        
-        # Motor 1 go backwards
-        GPIO.output(int(self.motors[1, 0]), GPIO.LOW)
-        GPIO.output(int(self.motors[1, 1]), GPIO.HIGH)
-        GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
+        for i in range(0, len(self.motors)):
+            if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
+                GPIO.output(int(self.motors[i, 0]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
+            else:
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)     
         
         time.sleep(int(timeSleep))
         
@@ -99,15 +99,15 @@ class Robot():
         
         print(f'Turning left for {timeSleep} seconds')
         
-        # Motor 0 go backwards
-        GPIO.output(int(self.motors[0, 0]), GPIO.LOW)
-        GPIO.output(int(self.motors[0, 1]), GPIO.HIGH)
-        GPIO.output(int(self.motors[0, 2]), GPIO.HIGH)
-        
-        # Motor 1 go forwards
-        GPIO.output(int(self.motors[1, 0]), GPIO.HIGH)
-        GPIO.output(int(self.motors[1, 1]), GPIO.LOW)
-        GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
+        for i in range(0, len(self.motors)):
+            if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
+                GPIO.output(int(self.motors[0, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[0, 1]), GPIO.HIGH)
+                GPIO.output(int(self.motors[0, 2]), GPIO.HIGH)
+            else:
+                GPIO.output(int(self.motors[1, 0]), GPIO.HIGH)
+                GPIO.output(int(self.motors[1, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
         
         time.sleep(int(timeSleep))
         
@@ -119,9 +119,9 @@ class Robot():
         
         print('Stopped turning left')
 
-robot = Robot()
+if __name__ == '__main__':
+    robot = Robot()
 
-robot.turnRight(3)
-robot.turnLeft(3)
+    robot.forward(5) # Moves the robot forwards for 5 seconds
 
-robot.shutdown()
+    robot.shutdown()
