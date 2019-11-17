@@ -7,9 +7,15 @@
 
 	    <!-- Bootstrap CSS -->
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	    <style type="text/css">
+	    	a:hover {
+				text-decoration: none;
+			}
+	    </style>
 	</head>
 	<body>
 		<div class="container-fluid mt-3">
+			<button class="btn btn-danger mb-3"><a class="text-white" href="{{ url_for('remote') }}">Go back to remote</a></button>
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<button class="btn btn-primary" type="button" id="cmdEnter" onclick="cmdSend();">Send Command</button>

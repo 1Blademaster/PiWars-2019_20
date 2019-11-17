@@ -20,7 +20,7 @@ def fetchSliderData():
     return jsonify({'response': 'done'})
 
 @app.route('/')
-def keyPress():
+def remote():
     return render_template('index.html')
 
 @app.route('/fetchKeyPressData', methods=['POST'])
