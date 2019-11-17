@@ -1,11 +1,10 @@
 #https://www.techcoil.com/blog/how-to-use-flask-apscheduler-in-your-python-3-flask-application-to-run-multiple-tasks-in-parallel-from-a-single-http-request/
 
 from flask import Flask, render_template, url_for, request, jsonify
+import subprocess
 import os
 import sys
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-from motorFunctions.robot import Robot
+import time
 
 app = Flask(__name__)
 #robot = Robot()
@@ -13,10 +12,6 @@ movement = {
     'direction': None,
     'speed': None,
 }
-
-@app.route('/slider')
-def slider():
-    return render_template('slider.html')
 
 @app.route('/fetchSliderData', methods=['POST'])
 def fetchSliderData():
@@ -26,7 +21,7 @@ def fetchSliderData():
 
 @app.route('/')
 def keyPress():
-    return render_template('keyPress.html')
+    return render_template('index.html')
 
 @app.route('/fetchKeyPressData', methods=['POST'])
 def fetchKeyPressData():
@@ -61,8 +56,27 @@ def fetchKeyPressData():
             #robot.backward(9999999)
     else:
         print('Unknown input')
+        movement['direction'] = 'unknown'
 
     return movement['direction']
+
+@app.route('/command')
+def enterCommand():
+    return render_template('command.html')
+
+@app.route('/executeCommand', methods=['POST'])
+def executeCommand():
+    cmd = request.json.split()
+    if cmd[0] == 'cd':
+        os.chdir(cmd[1])
+        files = ''
+        for file in os.listdir(os.getcwd()):
+            files += file + ' \n'
+        return jsonify({'response': files})
+    p = subprocess.Popen(cmd, cwd=os.getcwd(), stdout=subprocess.PIPE, shell=True)
+    pOut = p.communicate()[0].decode()
+    #exec(open('prin.py').read())
+    return jsonify({'response': pOut})
 
 if __name__ == '__main__':
     app.run(debug=True)

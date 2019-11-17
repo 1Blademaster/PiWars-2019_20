@@ -1,69 +1,70 @@
 import numpy as np
 import imutils
 import cv2
-import utils.colors as c
+import colorDetection.utils.colors as c
 
-cam = cv2.VideoCapture(0)
+def detectColors():
 
-while True:
-    _, frame = cam.read()
+    cam = cv2.VideoCapture(0)
 
-    frame = imutils.resize(frame, width=800)
+    while True:
+        _, frame = cam.read()
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        frame = imutils.resize(frame, width=800)
 
-    col = c.green
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # hue, saturation, value
-    colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
-    colorUpper = np.array([col[1, 0], col[1, 1], col[1, 2]])
+        col = c.green
 
-    mask = cv2.inRange(hsv, colorLower, colorUpper)
-    mask = cv2.erode(mask, None, iterations=1)
-    mask = cv2.dilate(mask, None, iterations=1)
+        # hue, saturation, value
+        colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
+        colorUpper = np.array([col[1, 0], col[1, 1], col[1, 2]])
 
-    maskFrame = cv2.bitwise_and(frame, frame, mask=mask)
+        mask = cv2.inRange(hsv, colorLower, colorUpper)
+        mask = cv2.erode(mask, None, iterations=1)
+        mask = cv2.dilate(mask, None, iterations=1)
 
-    # find contours in the mask and initialize the current
-    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
-    center = None
+        maskFrame = cv2.bitwise_and(frame, frame, mask=mask)
 
-    if len(cnts) > 0:
-        maxCNT = max(cnts, key=cv2.contourArea)
-        maxM = cv2.moments(maxCNT)
-        maxCenter = (int(maxM["m10"] / maxM["m00"]), int(maxM["m01"] / maxM["m00"])) #This sets the variable center to the location of the center in a tuple of (x, y)
+        # find contours in the mask and initialize the current
+        cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+        center = None
 
-        cv2.circle(frame, maxCenter, 5, (0, 255, 0), -1)
+        if len(cnts) > 0:
+            maxCNT = max(cnts, key=cv2.contourArea)
+            maxM = cv2.moments(maxCNT)
+            maxCenter = (int(maxM["m10"] / maxM["m00"]), int(maxM["m01"] / maxM["m00"])) #This sets the variable center to the location of the center in a tuple of (x, y)
 
-        if len(cnts) > 5:
-            cnts = cnts[:5]
+            cv2.circle(frame, maxCenter, 5, (0, 255, 0), -1)
 
-        for cnt in cnts:
-            if np.all(cnt != maxCNT):
-                M = cv2.moments(cnt)
-                center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+            if len(cnts) > 5:
+                cnts = cnts[:5]
 
-                cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
+            for cnt in cnts:
+                if np.all(cnt != maxCNT):
+                    M = cv2.moments(cnt)
+                    center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
-        if maxCenter[0] < 150:
-            print('Object is on far left')
-        if maxCenter[0] < 350:
-            print('Object is on left')
-        if maxCenter[0] > 450:
-            print('Object is on right')
-        if maxCenter[0] > 650:
-            print('Object is on far right')
-        if maxCenter[0] >= 350 and maxCenter[0] <= 450:
-            print('Object is in center')
+                    cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
+            
+            if maxCenter[0] < 150:
+                print('Object is on far left')
+            if maxCenter[0] < 350:
+                print('Object is on left')
+            if maxCenter[0] > 450:
+                print('Object is on right')
+            if maxCenter[0] > 650:
+                print('Object is on far right')
+            if maxCenter[0] >= 350 and maxCenter[0] <= 450:
+                print('Object is in center')
 
-    cv2.imshow("Frame", frame)
-    cv2.imshow("Mask Frame", maskFrame)
+        cv2.imshow("Frame", frame)
+        cv2.imshow("Mask Frame", maskFrame)
 
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
 
-
-# cleanup the camera and close any open windows
-cam.release()
-cv2.destroyAllWindows()
+    # cleanup the camera and close any open windows
+    cam.release()
+    cv2.destroyAllWindows()
