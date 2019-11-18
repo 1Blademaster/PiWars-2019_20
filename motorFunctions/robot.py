@@ -119,6 +119,17 @@ class Robot():
         
         print('Stopped turning left')
 
+    def stop(self):
+
+        print('Stopping all motors')
+
+        for i in range(0, len(self.motors)):
+            GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+            GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+            GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+
+        print('All motors stopped')
+
 if __name__ == '__main__':
     robot = Robot()
 
