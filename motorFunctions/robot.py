@@ -19,11 +19,12 @@ class Robot():
     motor2e = 8 # Enable Pin purple
 
     motors = np.array([
-        [motor1f, motor1b, motor1e], # Motor 1
-        [motor2f, motor2b, motor2e], # Motor 2
+        [motor1f, motor1b, motor1e, GPIO.PWM(motor1e, 100)], # Motor 1
+        [motor2f, motor2b, motor2e, GPIO.PWM(motor2e, 100)], # Motor 2
     ])
 
     for i in range(0, len(motors)):
+        motors[i, 3].start(0)
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
 
@@ -32,9 +33,11 @@ class Robot():
     
     def shutdown(self):
         print('Shutting down the robot')
+        for i in range(0, len(motors)):
+            motors[i, 3].stop()
         GPIO.cleanup()
 
-    def forward(self, timeSleep):
+    def forward(self, timeSleep=None, speed=100):
         print(f'Going forward for {timeSleep} seconds') # F string to make formatting easy
         
         # Turn all motors forward on
@@ -42,18 +45,20 @@ class Robot():
             GPIO.output(int(self.motors[i, 0]), GPIO.HIGH)
             GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
+            self.motors[i, 3].ChangeDutyCycle(speed)
 
-        time.sleep(int(timeSleep))
+        if timeSleep:
+            time.sleep(int(timeSleep))
 
-        # Turn all motors off
-        for i in range(0, len(self.motors)):
-            GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+            # Turn all motors off
+            for i in range(0, len(self.motors)):
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
 
-        print('Stopped going forwards')
+            print('Stopped going forwards')
 
-    def backward(self, timeSleep):
+    def backward(self, timeSleep=None, speed=100):
         print(f'Going forward for {timeSleep} seconds')
         
         # Turn all motors backward on
@@ -61,18 +66,20 @@ class Robot():
             GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
             GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
+            self.motors[i, 3].ChangeDutyCycle(speed)
 
-        time.sleep(int(timeSleep))
+        if timeSleep:
+            time.sleep(int(timeSleep))
 
-        # Turn all motors off
-        for i in range(0, len(self.motors)):
-            GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+            # Turn all motors off
+            for i in range(0, len(self.motors)):
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
 
-        print('Stopped going forwards')
+            print('Stopped going forwards')
 
-    def turnRight(self, timeSleep):
+    def turnRight(self, timeSleep=None):
         print(f'Turning right for {timeSleep} seconds')
         
         for i in range(0, len(self.motors)):
@@ -85,17 +92,18 @@ class Robot():
                 GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
                 GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)     
         
-        time.sleep(int(timeSleep))
-        
-        # All motors go off
-        for i in range(0, len(self.motors)):
-            GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
-        
-        print('Stopped turning right')
+        if timeSleep:
+            time.sleep(int(timeSleep))
+            
+            # All motors go off
+            for i in range(0, len(self.motors)):
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+            
+            print('Stopped turning right')
 
-    def turnLeft(self, timeSleep):
+    def turnLeft(self, timeSleep=None):
         
         print(f'Turning left for {timeSleep} seconds')
         
@@ -109,15 +117,16 @@ class Robot():
                 GPIO.output(int(self.motors[1, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
         
-        time.sleep(int(timeSleep))
-        
-        # All motors go off
-        for i in range(0, len(self.motors)):
-            GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
-            GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
-        
-        print('Stopped turning left')
+        if timeSleep:
+            time.sleep(int(timeSleep))
+            
+            # All motors go off
+            for i in range(0, len(self.motors)):
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+            
+            print('Stopped turning left')
 
     def stop(self):
 
@@ -133,6 +142,6 @@ class Robot():
 if __name__ == '__main__':
     robot = Robot()
 
-    robot.forward(5) # Moves the robot forwards for 5 seconds
+    robot.forward(timeSleep=5) # Moves the robot forwards for 5 seconds at 100% speed
 
     robot.shutdown()

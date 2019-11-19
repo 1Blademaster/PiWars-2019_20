@@ -14,7 +14,7 @@ GPIO.setup(motor1e, GPIO.OUT)
 pwm = GPIO.PWM(motor1e, 100)
 pwm.start(0)
 
-print('Starting motor fowards at 25% speed')
+print('Starting motor forwards at 25% speed')
 
 GPIO.output(motor1f, True)
 GPIO.output(motor1b, False)
