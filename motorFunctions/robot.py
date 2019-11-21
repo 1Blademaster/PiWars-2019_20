@@ -19,12 +19,17 @@ class Robot():
     motor2e = 8 # Enable Pin purple
 
     motors = np.array([
-        [motor1f, motor1b, motor1e, GPIO.PWM(motor1e, 100)], # Motor 1
-        [motor2f, motor2b, motor2e, GPIO.PWM(motor2e, 100)], # Motor 2
+        [motor1f, motor1b, motor1e], # Motor 1
+        [motor2f, motor2b, motor2e], # Motor 2
     ])
+    
+    pwmMotors = [
+        GPIO.PWM(motor1e, 100),
+        GPIO.PWM(motor2e, 100),
+    ]
 
     for i in range(0, len(motors)):
-        motors[i, 3].start(0)
+        pwmMotors[i].start()
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
 
@@ -33,8 +38,8 @@ class Robot():
     
     def shutdown(self):
         print('Shutting down the robot')
-        for i in range(0, len(motors)):
-            motors[i, 3].stop()
+        for motor in pwmMotors:
+            motor.stop()
         GPIO.cleanup()
 
     def forward(self, timeSleep=None, speed=100):
@@ -45,7 +50,9 @@ class Robot():
             GPIO.output(int(self.motors[i, 0]), GPIO.HIGH)
             GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
-            self.motors[i, 3].ChangeDutyCycle(speed)
+        
+        for motor in self.pwmMotors:
+            motor.ChangeDutyCycle(speed)
 
         if timeSleep:
             time.sleep(int(timeSleep))
@@ -66,7 +73,9 @@ class Robot():
             GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
             GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
-            self.motors[i, 3].ChangeDutyCycle(speed)
+        
+        for motor in self.pwmMotors:
+            motor.ChangeDutyCycle(speed)
 
         if timeSleep:
             time.sleep(int(timeSleep))
@@ -91,6 +100,9 @@ class Robot():
                 GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
                 GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)     
+        
+        for motor in self.pwmMotors:
+            motor.ChangeDutyCycle(100)
         
         if timeSleep:
             time.sleep(int(timeSleep))
@@ -117,6 +129,9 @@ class Robot():
                 GPIO.output(int(self.motors[1, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
         
+        for motor in self.pwmMotors:
+            motor.ChangeDutyCycle(100)
+            
         if timeSleep:
             time.sleep(int(timeSleep))
             
