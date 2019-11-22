@@ -21,29 +21,32 @@ class Robot():
     motors = np.array([
         [motor1f, motor1b, motor1e], # Motor 1
         [motor2f, motor2b, motor2e], # Motor 2
-    ])
-    
-    pwmMotors = [
-        GPIO.PWM(motor1e, 100),
-        GPIO.PWM(motor2e, 100),
-    ]
+    ])    
 
     for i in range(0, len(motors)):
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
         pwmMotors[i].start()
 
+    pwmMotors = [
+        GPIO.PWM(motor1e, 100),
+        GPIO.PWM(motor2e, 100),
+    ]
+
+    for motor in pwmMotors:
+        motor.start(0)
+
     def __init__(self):
         pass
     
     def shutdown(self):
         print('Shutting down the robot')
-        for motor in pwmMotors:
+        for motor in self.pwmMotors:
             motor.stop()
         GPIO.cleanup()
 
     def forward(self, timeSleep=None, speed=100):
-        print('Going forward for {timeSleep} seconds') # F string to make formatting easy
+        print(f'Going forward for {timeSleep} seconds') # F string to make formatting easy
         
         # Turn all motors forward on
         for i in range(0, len(self.motors)): # Loop through all the motors in the array
@@ -66,7 +69,7 @@ class Robot():
             print('Stopped going forwards')
 
     def backward(self, timeSleep=None, speed=100):
-        print('Going forward for {timeSleep} seconds')
+        print(f'Going forward for {timeSleep} seconds')
         
         # Turn all motors backward on
         for i in range(0, len(self.motors)):
@@ -89,7 +92,7 @@ class Robot():
             print('Stopped going forwards')
 
     def turnRight(self, timeSleep=None):
-        print('Turning right for {timeSleep} seconds')
+        print(f'Turning right for {timeSleep} seconds')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
@@ -117,7 +120,7 @@ class Robot():
 
     def turnLeft(self, timeSleep=None):
         
-        print('Turning left for {timeSleep} seconds')
+        print(f'Turning left for {timeSleep} seconds')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
