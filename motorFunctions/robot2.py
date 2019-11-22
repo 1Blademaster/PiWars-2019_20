@@ -18,6 +18,8 @@ class Robot():
     motor2b = 21 # Input Pin grey
     motor2e = 8 # Enable Pin purple
 
+    isRunning = False
+
     motors = np.array([
         [motor1f, motor1b, motor1e], # Motor 1
         [motor2f, motor2b, motor2e], # Motor 2
@@ -27,7 +29,6 @@ class Robot():
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
         
-
     pwmMotors = [
         GPIO.PWM(motor1e, 100),
         GPIO.PWM(motor2e, 100),
@@ -40,10 +41,13 @@ class Robot():
         pass
     
     def shutdown(self):
-        print('Shutting down the robot')
-        for motor in self.pwmMotors:
-            motor.stop()
-        GPIO.cleanup()
+        if self.isRunning:
+            print('Cannot shutdown, there is something running')
+        else:
+            print('Shutting down the robot')
+            for motor in self.pwmMotors:
+                motor.stop()
+            GPIO.cleanup()
 
     def forward(self, timeSleep=None, speed=100):
         print('Going forward for {timeSleep} seconds') # F string to make formatting easy
@@ -57,6 +61,8 @@ class Robot():
         for motor in self.pwmMotors:
             motor.ChangeDutyCycle(speed)
 
+        self.isRunning = True
+
         if timeSleep:
             time.sleep(int(timeSleep))
 
@@ -66,7 +72,10 @@ class Robot():
                 GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
 
+            self.isRunning = False
+
             print('Stopped going forwards')
+
 
     def backward(self, timeSleep=None, speed=100):
         print('Going forward for {timeSleep} seconds')
@@ -80,6 +89,8 @@ class Robot():
         for motor in self.pwmMotors:
             motor.ChangeDutyCycle(speed)
 
+        self.isRunning = True
+
         if timeSleep:
             time.sleep(int(timeSleep))
 
@@ -89,6 +100,8 @@ class Robot():
                 GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
 
+            self.isRunning = False
+            
             print('Stopped going forwards')
 
     def turnRight(self, timeSleep=None):
@@ -106,7 +119,9 @@ class Robot():
         
         for motor in self.pwmMotors:
             motor.ChangeDutyCycle(100)
-        
+
+        self.isRunning = True
+                
         if timeSleep:
             time.sleep(int(timeSleep))
             
@@ -115,6 +130,8 @@ class Robot():
                 GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
+
+            self.isRunning = False
             
             print('Stopped turning right')
 
@@ -155,11 +172,13 @@ class Robot():
             GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
             GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
 
+        self.isRunning = False
+
         print('All motors stopped')
 
 if __name__ == '__main__':
     robot = Robot()
 
-    robot.forward(timeSleep=5, speed=50) # Moves the robot forwards for 5 seconds at 100% speed
-
+    robot.forward() # Moves the robot forwards for 5 seconds at 100% speed
     robot.shutdown()
+    print('h')
