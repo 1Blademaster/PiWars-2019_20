@@ -21,24 +21,27 @@ class Robot():
     motors = np.array([
         [motor1f, motor1b, motor1e], # Motor 1
         [motor2f, motor2b, motor2e], # Motor 2
-    ])
-    
-    pwmMotors = [
-        GPIO.PWM(motor1e, 100),
-        GPIO.PWM(motor2e, 100),
-    ]
+    ])    
 
     for i in range(0, len(motors)):
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
         pwmMotors[i].start()
 
+    pwmMotors = [
+        GPIO.PWM(motor1e, 100),
+        GPIO.PWM(motor2e, 100),
+    ]
+
+    for motor in pwmMotors:
+        motor.start(0)
+
     def __init__(self):
         pass
     
     def shutdown(self):
         print('Shutting down the robot')
-        for motor in pwmMotors:
+        for motor in self.pwmMotors:
             motor.stop()
         GPIO.cleanup()
 
