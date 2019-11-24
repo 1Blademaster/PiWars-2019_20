@@ -46,7 +46,10 @@ class Robot():
         GPIO.cleanup()
 
     def forward(self, timeSleep=None, speed=100):
-        print(f'Going forward for {timeSleep} seconds') # F string to make formatting easy
+        if timeSleep:
+            print('Going forward for {} seconds'.format(timeSleep))
+        else:
+            print('Going forward forever')
         
         # Turn all motors forward on
         for i in range(0, len(self.motors)): # Loop through all the motors in the array
@@ -69,7 +72,10 @@ class Robot():
             print('Stopped going forwards')
 
     def backward(self, timeSleep=None, speed=100):
-        print(f'Going forward for {timeSleep} seconds')
+        if timeSleep:
+            print('Going backward for {} seconds'.format(timeSleep))
+        else:
+            print('Going backward forever')
         
         # Turn all motors backward on
         for i in range(0, len(self.motors)):
@@ -92,7 +98,10 @@ class Robot():
             print('Stopped going forwards')
 
     def turnRight(self, timeSleep=None):
-        print(f'Turning right for {timeSleep} seconds')
+        if timeSleep:
+            print('Turning right for {} seconds'.format(timeSleep))
+        else:
+            print('Turning right forever')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
@@ -119,8 +128,10 @@ class Robot():
             print('Stopped turning right')
 
     def turnLeft(self, timeSleep=None):
-        
-        print(f'Turning left for {timeSleep} seconds')
+        if timeSleep:
+            print('Turning left for {} seconds'.format(timeSleep))
+        else:
+            print('Turning left forever')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
