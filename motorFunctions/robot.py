@@ -26,7 +26,6 @@ class Robot():
     for i in range(0, len(motors)):
         for j in range(0, len(motors[i])):
             GPIO.setup(int(motors[i, j]), GPIO.OUT)
-        pwmMotors[i].start()
 
     pwmMotors = [
         GPIO.PWM(motor1e, 100),
