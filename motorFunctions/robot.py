@@ -11,16 +11,24 @@ class Robot():
     #              | |
     #motor 3 ---> o---o <--- motor 4
 
-    motor1f = 12 # Input Pin yellow
-    motor1b = 7 # Input Pin white
-    motor1e = 16 # Enable Pin blue
-    motor2f = 20 # Input Pin white
-    motor2b = 21 # Input Pin grey
-    motor2e = 8 # Enable Pin purple
+    motor1f = 12
+    motor1b = 7
+    motor1e = 16
+    motor2f = 20
+    motor2b = 21
+    motor2e = 8
+    motor3f = 16
+    motor3b = 20
+    motor3e = 21
+    motor4f = 14
+    motor4b = 15
+    motor4e = 18
 
     motors = np.array([
         [motor1f, motor1b, motor1e], # Motor 1
         [motor2f, motor2b, motor2e], # Motor 2
+        [motor3f, motor3b, motor3e],
+        [motor4f, motor4b, motor4e],
     ])    
 
     for i in range(0, len(motors)):
@@ -30,6 +38,8 @@ class Robot():
     pwmMotors = [
         GPIO.PWM(motor1e, 100),
         GPIO.PWM(motor2e, 100),
+        GPIO.PWM(motor3e, 100),
+        GPIO.PWM(motor4e, 100),
     ]
 
     for motor in pwmMotors:
