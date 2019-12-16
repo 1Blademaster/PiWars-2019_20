@@ -21,7 +21,7 @@ while True:
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    col = c.lightBlue
+    col = c.red
 
     # hue, saturation, value
     colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
@@ -55,12 +55,16 @@ while True:
                 cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
         if maxCenter[0] < 150:
             print('Object is on far left')
+            robot.turnLeft(0.2)
         if maxCenter[0] < 350:
             print('Object is on left')
+            robot.turnLeft(0.1)
         if maxCenter[0] > 450:
             print('Object is on right')
+            robot.turnRight(0.1)
         if maxCenter[0] > 650:
             print('Object is on far right')
+            robot.turnRight(0.2)
         if maxCenter[0] >= 350 and maxCenter[0] <= 450:
             print('Object is in center')
 

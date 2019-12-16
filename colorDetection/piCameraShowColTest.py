@@ -17,7 +17,7 @@ while True:
     frame = cap.read()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    col = c.lightBlue
+    col = c.red
 
     # hue, saturation, value
     lower_col_0 = np.array([col[0, 0], col[0, 1], col[0, 2]])
