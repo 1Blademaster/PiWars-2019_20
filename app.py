@@ -5,9 +5,10 @@ import subprocess
 import os
 import sys
 import time
+from motorFunctions.robot import Robot
 
 app = Flask(__name__)
-#robot = Robot()
+robot = Robot()
 movement = {
     'direction': None,
     'speed': None,
@@ -29,31 +30,31 @@ def fetchKeyPressData():
     if request.json == 'left':
         if movement['direction'] == 'right':
             movement['direction'] = 'stopped'
-            #robot.stop()
+            robot.stop()
         else:
             movement['direction'] = 'left'
-            #robot.turnLeft(9999999)
+            robot.turnLeft()
     elif request.json == 'right':
         if movement['direction'] == 'left':
             movement['direction'] = 'stopped'
-            #robot.stop()
+            robot.stop()
         else:
             movement['direction'] = 'right'
-            #robot.turnRight(9999999)
+            robot.turnRight()
     elif request.json == 'up':
         if movement['direction'] == 'down':
             movement['direction'] = 'stopped'
-            #robot.stop()
+            robot.stop()
         else:
             movement['direction'] = 'up'
-            #robot.forward(9999999)
+            robot.forward()
     elif request.json == 'down':
         if movement['direction'] == 'up':
             movement['direction'] = 'stopped'
-            #robot.stop()
+            robot.stop()
         else:
             movement['direction'] = 'down'
-            #robot.backward(9999999)
+            robot.backward()
     else:
         print('Unknown input')
         movement['direction'] = 'unknown'
@@ -79,4 +80,4 @@ def executeCommand():
     return jsonify({'response': pOut})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=80)

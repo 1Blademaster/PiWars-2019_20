@@ -11,12 +11,12 @@ class Robot():
     #              | |
     #motor 3 ---> o---o <--- motor 4
 
-    motor1f = 12
-    motor1b = 7
-    motor1e = 16
-    motor2f = 20
-    motor2b = 21
-    motor2e = 8
+    motor1f = 2
+    motor1b = 3
+    motor1e = 4
+    motor2f = 17
+    motor2b = 27
+    motor2e = 22
     motor3f = 16
     motor3b = 20
     motor3e = 21
@@ -126,7 +126,7 @@ class Robot():
             motor.ChangeDutyCycle(100)
         
         if timeSleep:
-            time.sleep(int(timeSleep))
+            time.sleep(timeSleep)
             
             # All motors go off
             for i in range(0, len(self.motors)):
@@ -144,19 +144,19 @@ class Robot():
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
-                GPIO.output(int(self.motors[0, 0]), GPIO.LOW)
-                GPIO.output(int(self.motors[0, 1]), GPIO.HIGH)
-                GPIO.output(int(self.motors[0, 2]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 0]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 1]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
             else:
-                GPIO.output(int(self.motors[1, 0]), GPIO.HIGH)
-                GPIO.output(int(self.motors[1, 1]), GPIO.LOW)
-                GPIO.output(int(self.motors[1, 2]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 0]), GPIO.HIGH)
+                GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
+                GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
         
         for motor in self.pwmMotors:
             motor.ChangeDutyCycle(100)
             
         if timeSleep:
-            time.sleep(int(timeSleep))
+            time.sleep(timeSleep)
             
             # All motors go off
             for i in range(0, len(self.motors)):

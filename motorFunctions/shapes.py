@@ -1,10 +1,10 @@
-from robot import robot
+from robot import Robot
 
 def square():
     print('Creating a square')
-    for i in range(0, 4):
-        robot.foward(timeSleep=3)
-        robot.turnRight(timeSleep=5)
+    for i in range(4):
+        robot.forward(timeSleep=2)
+        robot.turnRight(timeSleep=1.3)
 
 def circle():
     print('Creating a circle')
@@ -19,4 +19,6 @@ def octagon():
 if __name__ == "__main__":
     robot = Robot()
 
-    octagon() # Draws an octagon
+    square()
+
+    robot.shutdown()

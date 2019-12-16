@@ -4,12 +4,15 @@ import time
 from imutils.video import VideoStream
 import imutils
 import utils.colors as c
+from robot import Robot
 
 cap = VideoStream(src=0, usePiCamera=True, framerate=32).start()
 
 time.sleep(0.5)
 
 print('--- Press ESC to end the video feed ---')
+
+robot = Robot()
 
 while True:
     frame = cap.read()
@@ -61,8 +64,6 @@ while True:
         if maxCenter[0] >= 350 and maxCenter[0] <= 450:
             print('Object is in center')
 
-    cv2.imshow("Frame", frame)
-    cv2.imshow("Mask Frame", maskFrame)
 
     key = cv2.waitKey(1)
     if key == 27:
