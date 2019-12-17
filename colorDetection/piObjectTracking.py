@@ -67,7 +67,7 @@ while True:
                 print('Object is on far right')
                 robot.turnRight(timeSleep=0.1, speed=75)
             if maxCenter[0] >= 350 and maxCenter[0] <= 450:
-                robot.forward(timeSleep=0.2)
+                robot.backward(timeSleep=0.2)
                 print('Object is in center')
     except KeyboardInterrupt:
         print('Ending object tracking')
