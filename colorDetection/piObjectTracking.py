@@ -55,7 +55,7 @@ while True:
                 cv2.circle(frame, center, 5, (0, 0, 255), -1) #Displays the center location of the object
         if maxCenter[0] < 150:
             print('Object is on far left')
-            robot.turnLeft(timeSleep=0.2, speed=50)
+            robot.turnLeft(timeSleep=0.1, speed=75)
         if maxCenter[0] < 350:
             print('Object is on left')
             robot.turnLeft(timeSleep=0.1, speed=50)
@@ -64,7 +64,7 @@ while True:
             robot.turnRight(timeSleep=0.1, speed=50)
         if maxCenter[0] > 650:
             print('Object is on far right')
-            robot.turnRight(timeSleep=0.2, speed=50)
+            robot.turnRight(timeSleep=0.1, speed=75)
         if maxCenter[0] >= 350 and maxCenter[0] <= 450:
             print('Object is in center')
 
