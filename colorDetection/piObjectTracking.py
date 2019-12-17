@@ -57,20 +57,18 @@ while True:
             if maxCenter[0] < 150:
                 print('Object is on far left')
                 robot.turnLeft(timeSleep=0.1, speed=75)
-            elif maxCenter[0] < 350:
+            if maxCenter[0] < 350:
                 print('Object is on left')
                 robot.turnLeft(timeSleep=0.1, speed=50)
-            elif maxCenter[0] > 450:
+            if maxCenter[0] > 450:
                 print('Object is on right')
                 robot.turnRight(timeSleep=0.1, speed=50)
-            elif maxCenter[0] > 650:
+            if maxCenter[0] > 650:
                 print('Object is on far right')
                 robot.turnRight(timeSleep=0.1, speed=75)
-            elif maxCenter[0] >= 350 and maxCenter[0] <= 450:
+            if maxCenter[0] >= 350 and maxCenter[0] <= 450:
                 robot.forward(timeSleep=0.2)
                 print('Object is in center')
-            else:
-                print('Object not detected')
     except KeyboardInterrupt:
         print('Ending object tracking')
         break
