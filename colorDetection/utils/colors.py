@@ -1,8 +1,8 @@
 import numpy as np
 
 green = np.array([
-    [50, 92, 76],
-    [84, 255, 255],
+    [44, 88, 56],
+    [89, 255, 255],
 ])
 
 greenYellow = np.array([
