@@ -70,7 +70,7 @@ class Robot():
             motor.ChangeDutyCycle(speed)
 
         if timeSleep:
-            time.sleep(int(timeSleep))
+            time.sleep(timeSleep)
 
             # Turn all motors off
             for i in range(0, len(self.motors)):
@@ -106,7 +106,7 @@ class Robot():
 
             print('Stopped going forwards')
 
-    def turnRight(self, timeSleep=None):
+    def turnRight(self, timeSleep=None, speed=100):
         if timeSleep:
             print('Turning right for {} seconds'.format(timeSleep))
         else:
@@ -123,7 +123,7 @@ class Robot():
                 GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)     
         
         for motor in self.pwmMotors:
-            motor.ChangeDutyCycle(100)
+            motor.ChangeDutyCycle(speed)
         
         if timeSleep:
             time.sleep(timeSleep)
@@ -136,7 +136,7 @@ class Robot():
             
             print('Stopped turning right')
 
-    def turnLeft(self, timeSleep=None):
+    def turnLeft(self, timeSleep=None, speed=100):
         if timeSleep:
             print('Turning left for {} seconds'.format(timeSleep))
         else:
@@ -153,7 +153,7 @@ class Robot():
                 GPIO.output(int(self.motors[i, 2]), GPIO.HIGH)
         
         for motor in self.pwmMotors:
-            motor.ChangeDutyCycle(100)
+            motor.ChangeDutyCycle(speed)
             
         if timeSleep:
             time.sleep(timeSleep)
