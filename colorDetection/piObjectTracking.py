@@ -22,7 +22,7 @@ while True:
 
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        col = c.green
+        col = c.orange
 
         # hue, saturation, value
         colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
