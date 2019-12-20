@@ -1,7 +1,7 @@
 import numpy as np
 import imutils
 import cv2
-import colorDetection.utils.colors as c
+import utils.colors as c
 
 def detectColors():
 
@@ -14,7 +14,7 @@ def detectColors():
 
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        col = c.green
+        col = c.orange
 
         # hue, saturation, value
         colorLower = np.array([col[0, 0], col[0, 1], col[0, 2]])
