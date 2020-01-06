@@ -10,9 +10,9 @@ greenYellow = np.array([
     [60, 255, 255]
 ])
 
-darkBlue = np.array([
-    [107, 193, 68],
-    [112, 255, 255]
+blue = np.array([
+    [96, 128, 23],
+    [120, 255, 255]
 ])
 
 lightBlue = np.array([
@@ -33,4 +33,9 @@ red = np.array([
 orange = np.array([
     [0, 141, 172],
     [23, 255, 255]
+])
+
+white = np.array([
+    [0, 0, 0],
+    [0, 255, 255]
 ])

@@ -180,6 +180,7 @@ class Robot():
 if __name__ == '__main__':
     robot = Robot()
 
-    robot.forward(timeSleep=5) # Moves the robot forwards for 5 seconds at 100% speed
+    robot.turnRight(timeSleep=0.1)
+    robot.turnLeft(timeSleep=0.2)
 
     robot.shutdown()
