@@ -11,8 +11,8 @@ class Robot():
     #              | |
     #motor 3 ---> o---o <--- motor 4
 
-    motor1f = 2
-    motor1b = 3
+    motor1f = 23
+    motor1b = 24
     motor1e = 4
     motor2f = 17
     motor2b = 27
