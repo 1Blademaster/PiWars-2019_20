@@ -2,6 +2,7 @@
 import smbus
 import math
 import time
+from colorDetection.robot import Robot
 
 class Line_Follower(object):
     def __init__(self, address=0x11, references=[300, 300, 300, 300, 300]):
@@ -101,6 +102,7 @@ class Line_Follower(object):
         self._references = value
 
 if __name__ == '__main__':
+    r = Robot()
     lf = Line_Follower()
     while True:
         time.sleep(1)
@@ -111,6 +113,7 @@ if __name__ == '__main__':
             else:
                 values.append('BLACK')
         if values[2] == 'WHITE':
+            r.forward(0.3)
             print("The car is on the White Line")
         elif values[1] == 'WHITE' and values[2] == 'WHITE':
             print("The car is on the right approx .5cm of the line")

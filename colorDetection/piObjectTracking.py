@@ -72,13 +72,13 @@ while True:
         else:
             print('Object not in frame')
             robot.turnRight(timeSleep=0.2, speed=100)
-            
+
         cv2.imshow("Masked Frame", maskFrame)
         key = cv2.waitKey(1)
         if key == 27:
             break
-        
-        time.sleep(0.2)
+
+        time.sleep(0.05)
 
     except KeyboardInterrupt:
         print('Ending object tracking')

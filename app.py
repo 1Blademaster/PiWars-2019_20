@@ -5,7 +5,7 @@ import subprocess
 import os
 import sys
 import time
-from motorFunctions.robot import Robot
+from colorDetection.robot import Robot
 
 app = Flask(__name__)
 robot = Robot()
@@ -63,6 +63,7 @@ def fetchKeyPressData():
 
 @app.route('/command')
 def enterCommand():
+    robot.stop()
     return render_template('command.html')
 
 @app.route('/executeCommand', methods=['POST'])
@@ -81,3 +82,4 @@ def executeCommand():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
+    robot.shutdown()

@@ -1,11 +1,11 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
-Motor1f = 12  # Input Pin yellow
-Motor1b = 7   # Input Pin white
-Motor1e = 16   # Enable Pin blue
+Motor1f = 29  # Input Pin yellow
+Motor1b = 31  # Input Pin white
+Motor1e = 40   # Enable Pin blue
 
 GPIO.setup(Motor1f, GPIO.OUT)
 GPIO.setup(Motor1b, GPIO.OUT)
@@ -30,9 +30,7 @@ sleep(3)
 print ("STOP m1")
 
 GPIO.output(Motor1e,GPIO.LOW)
-
-sleep(3)
-
-print ("STOP both")
+GPIO.output(Motor1f,GPIO.LOW)
+GPIO.output(Motor1b,GPIO.LOW)
 
 GPIO.cleanup()

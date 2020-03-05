@@ -4,25 +4,35 @@ import time
 
 class Robot():
     
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     
     #motor 1 ---> o---o <--- motor 2
     #              | |
     #              | |
     #motor 3 ---> o---o <--- motor 4
+    
+    #a - f16(M+) b18(M-) e7 - M4
+    #b - f11(M-) b13(M+) e15 - M3
+    #c - f19(M-) b21(M+) e23 - M1
+    #d - f31(M+) b29(M-) e40 - M2
+    
+    # ^ forward ^
+    #    c   d
+    #    b   a
+    # v  back  v
 
-    motor1f = 23
-    motor1b = 24
-    motor1e = 4
-    motor2f = 17
-    motor2b = 27
-    motor2e = 22
-    motor3f = 16
-    motor3b = 20
-    motor3e = 21
-    motor4f = 14
-    motor4b = 15
-    motor4e = 18
+    motor1f = 19
+    motor1b = 21
+    motor1e = 23
+    motor2f = 31
+    motor2b = 29
+    motor2e = 40
+    motor3f = 11
+    motor3b = 13
+    motor3e = 15
+    motor4f = 16
+    motor4b = 18
+    motor4e = 7
 
     motors = np.array([
         [motor1f, motor1b, motor1e], # Motor 1
@@ -106,11 +116,11 @@ class Robot():
 
             print('Stopped going forwards')
 
-    def turnLeft(self, timeSleep=None, speed=100):
+    def turnRight(self, timeSleep=None, speed=100):
         if timeSleep:
-            print('Turning left for {} seconds'.format(timeSleep))
+            print('Turning right for {} seconds'.format(timeSleep))
         else:
-            print('Turning left forever')
+            print('Turning right forever')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
@@ -134,13 +144,13 @@ class Robot():
                 GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
             
-            print('Stopped turning left')
+            print('Stopped turning right')
 
-    def turnRight(self, timeSleep=None, speed=100):
+    def turnLeft(self, timeSleep=None, speed=100):
         if timeSleep:
-            print('Turning right for {} seconds'.format(timeSleep))
+            print('Turning left for {} seconds'.format(timeSleep))
         else:
-            print('Turning right forever')
+            print('Turning left forever')
         
         for i in range(0, len(self.motors)):
             if i % 2 == 0: # If motor is divisible by 2, then it is on left side of robot
@@ -164,7 +174,7 @@ class Robot():
                 GPIO.output(int(self.motors[i, 1]), GPIO.LOW)
                 GPIO.output(int(self.motors[i, 2]), GPIO.LOW)
             
-            print('Stopped turning right')
+            print('Stopped turning left')
 
     def stop(self):
 
@@ -180,7 +190,6 @@ class Robot():
 if __name__ == '__main__':
     robot = Robot()
 
-    robot.turnRight(timeSleep=0.1)
-    robot.turnLeft(timeSleep=0.2)
+    robot.backward(timeSleep=1)
 
     robot.shutdown()
