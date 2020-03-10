@@ -105,7 +105,7 @@ if __name__ == '__main__':
     r = Robot()
     lf = Line_Follower()
     while True:
-        time.sleep(1)
+        time.sleep(0.1)
         values = []
         for value in lf.read_analog():
             if value >= 300:
@@ -119,11 +119,15 @@ if __name__ == '__main__':
             print("The car is on the right approx .5cm of the line")
         elif values[1] == 'WHITE':
             print("The car is on the Right of the White Line")
-        elif values[3] == 'WHITE':
+            r.turnLeft(0.75)
+	elif values[3] == 'WHITE':
             print("The car is on the Left of the White Line")
+	    r.turnRight(0.75)
         elif values[4] == 'WHITE':
             print("The car is FAR LEFT OF THE LINE")
+	    r.turnRight(0.15)
         elif values[0] == 'WHITE':
             print("The car is FAR RIGHT OF THE LINE")
-        print(values)
+       	    r.turnLeft(0.15)
+	print(values)
 

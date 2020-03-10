@@ -7,6 +7,7 @@ import utils.colors as c
 from robot import Robot
 import RPi.GPIO as GPIO
 
+
 cap = VideoStream(src=0, usePiCamera=True, framerate=32).start()
 
 time.sleep(0.5)
@@ -22,41 +23,41 @@ servoval = float(servoval)
 global degrees
 degrees = 120
 global status1
-status1 = None
+status1 = "yes"
 def degcheck():
-    if degrees < 10  or degrees > 170:
+    if degrees == 10  or degrees == 180:
         
         status1 = "No"
     else:
         status1 = "Yes"
 def servomove():
     pass
-    #GPIO.setmode(GPIO.BOARD)
-    #GPIO.setup(#2, GPIO.OUT)
-    #pwm = GPIO.PWM(2, 50)
-    #pwm.start(0)
-    #duty = (degrees/12.9)+2
-    #print(degrees, duty)
-    #pwm.ChangeDutyCycle(duty)
-    #time.sleep(0.2)
-    #pwm.stop()
-    #GPIO.cleanup()
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(3, GPIO.OUT)
+    pwm = GPIO.PWM(3, 50)
+    pwm.start(0)
+    duty = (degrees/12.9)+2
+    print(degrees, duty)
+    pwm.ChangeDutyCycle(duty)
+    time.sleep(0.2)
+    pwm.stop()
+    GPIO.cleanup()
 
-    degrees = 120
-    #GPIO.setmode(GPIO.BCM)
-    #GPIO.setup(2, GPIO.OUT)
-#pwm = GPIO.PWM(#2, 50)
-#pwm.start(0)
-#duty = (degrees/12.9)+2
-#print(degrees, duty)
-#pwm.ChangeDutyCycle(duty)
-#time.sleep(0.2)
-#pwm.stop()
-#GPIO.cleanup()
+degrees = 120
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(3, GPIO.OUT)
+pwm = GPIO.PWM(3, 50)
+pwm.start(0)
+duty = (degrees/12.9)+2
+print(degrees, duty)
+pwm.ChangeDutyCycle(duty)
+time.sleep(0.2)
+pwm.stop()
+
 
 
 while True:
-
+    GPIO.setmode(GPIO.BOARD)
     
     try:
         frame = cap.read()
@@ -100,43 +101,57 @@ while True:
             if maxCenter[0] < 150:
                 print('Object is on far left')
                 robot.turnLeft(timeSleep=0.2, speed=100)
+                robot.forward(timeSleep=0.1, speed=100)
                 status = "fl"
             elif maxCenter[0] < 350:
                 print('Object is on left')
                 robot.turnLeft(timeSleep=0.1, speed=100)
+                robot.forward(timeSleep=0.1, speed=100)
                 status = "l"
             elif maxCenter[0] > 450:
                 print('Object is on right')
                 robot.turnRight(timeSleep=0.1, speed=100)
+                robot.forward(timeSleep=0.1, speed=100)
                 status = "r"
             elif maxCenter[0] > 650:
                 print('Object is on far right')
                 robot.turnRight(timeSleep=0.2, speed=100)
+                robot.forward(timeSleep=0.1, speed=100)
                 status = "fr"
             if maxCenter[1] < 150:
                 print('Object is very high')
                 status = "vh"
-                print("moving servo down a lot")
-                degrees -= 10
-                servomove()
+                if status1 == "Yes":
+                    print("moving servo down a lot")
+                    degrees -= 10
+                    servomove()
+                    degcheck()
                     
             elif maxCenter[1] < 350:
                 print('Object is high')
-                print("moving servo a bit up")
-                degrees -= 5
-                servomove()
+                status = "h"
+                if status1 == "yes":
+                    print("moving servo a bit up")
+                    degrees -= 5
+                    servomove()
+                    degcheck()
 
             elif maxCenter[1] > 450:
                 print('Object is low')
-                print("moving servo a bit down")
-                degrees += 5
-                servomove()    
+                status = "l"
+                if status1 == "yes":
+                    print("moving servo a bit down")
+                    degrees += 5
+                    servomove()
+                    degcheck()
          
             elif maxCenter[1] > 650:
                 print('Object is very low')
-                print("moving servo down a lot")
-                degrees += 10
-                servomove()
+                status = "vl"
+                if status1 == "yes":
+                    print("moving servo down a lot")
+                    degrees += 10
+                    servomove()
               
             elif maxCenter[0] >= 350 and maxCenter[0] <= 450 and maxCenter[1] >= 350 and maxCenter[1] <= 450 :
                 print('Object is in center')
@@ -144,7 +159,16 @@ while True:
      
         else:
             print('Object not in frame')
-            status = "na"
+            status = "not in frame"
+            robot.forward(timeSleep=0.2, speed=100)
+            robot.turnRight(timeSleep=0.2, speed=100)
+            
+            
+            if degrees == 180 and status == "not in frame":
+                robot.forward(timeSleep=0.2, speed=100)
+                time.sleep(5)
+                degrees = 120
+                servomove()
         
     
         cv2.imshow("Masked Frame", maskFrame)
