@@ -1,4 +1,3 @@
-
 import smbus
 import math
 import time
@@ -130,4 +129,3 @@ if __name__ == '__main__':
             print("The car is FAR RIGHT OF THE LINE")
        	    r.turnLeft(0.15)
 	print(values)
-
